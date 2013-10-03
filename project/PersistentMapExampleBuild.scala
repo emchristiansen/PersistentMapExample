@@ -32,7 +32,8 @@ object PersistentMapExampleBuild extends Build {
       "-optimize",
       "-unchecked",
       "-deprecation",
-      "-feature"
+      "-feature",
+      "-language:existentials"
     )
   )
 

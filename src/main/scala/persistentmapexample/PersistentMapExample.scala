@@ -1,7 +1,12 @@
+package persistentmapexample
+
 import scala.pickling._
 import scala.pickling.binary._
 import scala.slick.session.Database
 import st.sparse.persistentmap._
+
+case class Foo(int: Int)
+case class Bar(foos: List[Foo], string: String)
 
 object PersistentMapExample extends App {
   val database: scala.slick.session.Database = {
@@ -31,4 +36,16 @@ object PersistentMapExample extends App {
   println(s"2: $map")
   
   // And do anything else supported by `collection.mutable.Map`.
+  // ...
+  
+  // You can use arbitrary types in the store, so long as scala-pickling
+  // can handle them.
+
+  val otherMap = PersistentMap.create[Foo, Bar]("myOtherMap", database)
+  
+  println(s"3: $otherMap")
+  
+  otherMap += Foo(10) -> Bar(List(Foo(1), Foo(2)), "hello")
+  
+  println(s"4: $otherMap")
 }
